@@ -34,6 +34,12 @@ module XeroGateway
         @accounts.each do | account |
           @accounts_by_code[account.code.to_s] = account
         end
+        
+        # Cache accounts by code.
+        @accounts_by_id = {}
+        @accounts.each do | account |
+          @accounts_by_id[account.account_id.to_s] = account
+        end
       end
       
       def loaded?
@@ -44,6 +50,12 @@ module XeroGateway
       def find_by_code(account_code)
         raise AccountsListNotLoadedError unless loaded?
         @accounts_by_code[account_code.to_s]
+      end
+      
+      # Lookup account by account_code.
+      def find_by_account_id(account_id)
+        raise AccountsListNotLoadedError unless loaded?
+        @accounts_by_id[account_id.to_s]
       end
       
       # Alias [] method to find_by_code.
