@@ -69,5 +69,13 @@ module XeroGateway
         end
       end
       
+      def find_all_by_enable_payments
+        raise AccountsListNotLoadedError unless loaded?
+        @accounts.inject([]) do | list, account |
+          list << account if account.enable_payments_to_account || account.type.to_s.downcase == "bank"
+          list
+        end
+      end
+      
   end
 end
