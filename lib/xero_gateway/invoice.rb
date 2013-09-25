@@ -124,6 +124,11 @@ module XeroGateway
       invoice_status == 'AUTHORISED'
     end
     
+    # Helper method to check if the invoice is authorized before payment.
+    def voided?
+      invoice_status == 'VOIDED'
+    end
+    
     # Whether or not the line_items have been downloaded (GET/invoices does not download line items).
     def line_items_downloaded?
       @line_items_downloaded
