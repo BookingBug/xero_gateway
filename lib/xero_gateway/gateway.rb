@@ -528,6 +528,27 @@ module XeroGateway
       response_xml = http_get(@client, "#{xero_url}/TaxRates")
       parse_response(response_xml, {}, {:request_signature => 'GET/tax_rates'})
     end
+    
+    #
+    # Creates an array of payments with a single API request.
+    # 
+    # Usage :
+    #  invoices = [XeroGateway::Payment.new(...), XeroGateway::Payment.new(...)]
+    #  result = gateway.create_payments(payments)
+    #
+    def create_payments(payments)
+      b = Builder::XmlMarkup.new
+      request_xml = b.Payments {
+        payments.each do | payment |
+          payment.to_xml(b)
+        end
+      }
+      
+      response_xml = http_put(@client, "#{@xero_url}/Payments", request_xml, {})
+
+      response = parse_response(response_xml, {:request_xml => request_xml}, {:request_signature => 'PUT/payments'})
+      response
+    end
 
     #
     # Create Payment record in Xero
