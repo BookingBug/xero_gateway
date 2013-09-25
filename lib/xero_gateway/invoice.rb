@@ -119,6 +119,11 @@ module XeroGateway
       invoice_type == 'ACCREC'
     end
     
+    # Helper method to check if the invoice is authorized before payment.
+    def authorized?
+      invoice_status == 'AUTHORISED'
+    end
+    
     # Whether or not the line_items have been downloaded (GET/invoices does not download line items).
     def line_items_downloaded?
       @line_items_downloaded
