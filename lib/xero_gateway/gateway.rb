@@ -16,7 +16,7 @@ module XeroGateway
       @xero_url = options[:xero_url] || "https://api.xero.com/api.xro/2.0"
       @client   = OAuth.new(consumer_key, consumer_secret, options)
     end
-
+c
     #
     # Retrieve all contacts from Xero
     #
@@ -579,6 +579,14 @@ module XeroGateway
 
       response_xml = http_put(@client, "#{xero_url}/Payments", request_xml)
       parse_response(response_xml, {:request_xml => request_xml}, {:request_signature => 'PUT/payments'})
+    end
+    
+    #
+    # Delete a Payment for a specific organisation in Xero
+    #
+    def delete_payment(payment_id)
+      response_xml = http_post(@client, "#{@xero_url}/Payments/#{URI.escape(payment_id)}", {})
+      parse_response(response_xml, {:request_params => {}}, {:request_signature => 'POST/payments'})
     end
 
     private
