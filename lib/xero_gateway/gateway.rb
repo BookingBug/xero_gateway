@@ -580,7 +580,7 @@ c
       response_xml = http_put(@client, "#{xero_url}/Payments", request_xml)
       parse_response(response_xml, {:request_xml => request_xml}, {:request_signature => 'PUT/payments'})
     end
-    
+
     #
     # Delete a Payment for a specific organisation in Xero
     #
