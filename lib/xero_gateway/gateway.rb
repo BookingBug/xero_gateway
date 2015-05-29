@@ -584,9 +584,15 @@ module XeroGateway
     #
     # Delete a Payment for a specific organisation in Xero
     #
-    def delete_payment(payment_id)
-      response_xml = http_post(@client, "#{@xero_url}/Payments/#{URI.escape(payment_id)}", {})
-      parse_response(response_xml, {:request_params => {}}, {:request_signature => 'POST/payments'})
+    def delete_payment(payment, payment_id)
+      b = Builder::XmlMarkup.new
+
+      request_xml = b.Payments do
+        payment.to_xml(b)
+      end
+
+      response_xml = http_post(@client, "#{@xero_url}/Payments/#{URI.escape(payment_id)}", request_xml)
+      parse_response(response_xml, {:request_xml => request_xml, {:request_signature => 'POST/payments'})
     end
 
     private
