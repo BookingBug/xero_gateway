@@ -592,7 +592,7 @@ module XeroGateway
       end
 
       response_xml = http_post(@client, "#{@xero_url}/Payments/#{URI.escape(payment_id)}", request_xml)
-      parse_response(response_xml, {:request_xml => request_xml, {:request_signature => 'POST/payments'})
+      parse_response(response_xml, {:request_xml => request_xml}, {:request_signature => 'POST/payments'})
     end
 
     private
